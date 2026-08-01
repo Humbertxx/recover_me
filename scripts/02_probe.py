@@ -21,11 +21,11 @@ def main():
         candidates = find_telegram_files(DECRYPTED_DIR)
     except FileNotFoundError as error:
         print(error)
-        return 2
+        return 
 
     if not candidates:
         print("No Telegram-related files found. Run the locator and inspect the decrypted tree.")
-        return 1
+        return 
 
     for path in candidates:
         relative_path = path.relative_to(DECRYPTED_DIR)
