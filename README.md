@@ -25,12 +25,18 @@ uv pip install -e .
 
 ## Run stages 1–3
 
-Copy the UDID directory from MobileSync into `data/backup/`, then decrypt that
-copy only:
+Set `FILE_TO_FOLDER` in `.env` to the UDID directory in your MobileSync backup.
+The script reads the original backup without modifying it and writes decrypted
+files into `data/decrypted/`:
 
 ```sh
-export MVT_IOS_BACKUP_PASSWORD="..."
-./scripts/01_decrypt.sh data/backup/<UDID>
+uv run ./scripts/01_decrypt.sh
+```
+
+You can also pass a backup directory directly:
+
+```sh
+uv run ./scripts/01_decrypt.sh /path/to/backup/<UDID>
 ```
 
 The script invokes:
@@ -42,13 +48,13 @@ mvt-ios decrypt-backup -d data/decrypted/ data/backup/<UDID>
 Locate Telegram files:
 
 ```sh
-python -m src.locate
+uv run python -m src.locate
 ```
 
 Probe the files before implementing Postbox access or extraction:
 
 ```sh
-python scripts/02_probe.py
+uv run python -m scripts.02_probe
 ```
 
 ## Current status

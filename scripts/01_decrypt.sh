@@ -1,27 +1,34 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-if [[ $# -ne 1 ]]; then
-  echo "Usage: $0 data/backup/<UDID>" >&2
+if [[ $# -gt 1 ]]; then
+  echo "Usage: $0 [backup-directory]" >&2
   exit 2
 fi
 
 project_root="$(cd "$(dirname "$0")/.." && pwd)"
-backup_root="$project_root/data/backup"
 output_path="$project_root/data/decrypted"
 
-if [[ ! -d "$1" ]]; then
-  echo "Backup directory does not exist: $1" >&2
+# Load local configuration when present.
+if [[ -f "$project_root/.env" ]]; then
+  set -a
+  source "$project_root/.env"
+  set +a
+fi
+
+backup_input="${1:-${FILE_TO_FOLDER:-}}"
+
+if [[ -z "$backup_input" ]]; then
+  echo "Set FILE_TO_FOLDER in .env or pass a backup directory." >&2
   exit 2
 fi
 
-backup_path="$(cd "$1" && pwd)"
-
-if [[ "$backup_path" != "$backup_root"/* ]]; then
-  echo "Refusing to decrypt a backup outside $backup_root" >&2
-  echo "Copy the original backup into data/backup/ first." >&2
+if [[ ! -d "$backup_input" ]]; then
+  echo "Backup directory does not exist: $backup_input" >&2
   exit 2
 fi
+
+backup_path="$(cd "$backup_input" && pwd)"
 
 if [[ -z "${MVT_IOS_BACKUP_PASSWORD:-}" ]]; then
   echo "MVT_IOS_BACKUP_PASSWORD is not set." >&2

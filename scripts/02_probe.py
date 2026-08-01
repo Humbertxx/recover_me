@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
 """Inspect Telegram candidates without assuming that Postbox is SQLite.
 
-Run from the repository root: ``python scripts/02_probe.py``. Output stays in
-the terminal and may contain private message data; never commit or share it.
+Run from the repository root: ``uv run python -m scripts.02_probe``. Output
+stays in the terminal and may contain private message data; never commit or
+share it.
 """
 
 from __future__ import annotations
