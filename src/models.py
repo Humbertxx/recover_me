@@ -1,4 +1,4 @@
-"""Pydantic domain models produced by database extraction."""
+"""Pydantic models for the local WhatsApp archive."""
 
 from datetime import datetime
 from pydantic import BaseModel, Field

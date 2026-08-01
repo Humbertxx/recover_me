@@ -1,4 +1,4 @@
-"""Render extracted models as HTML."""
+"""Render recovered WhatsApp conversations as local HTML."""
 
 from pathlib import Path
 import shutil

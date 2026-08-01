@@ -31,7 +31,7 @@ def main():
     if args.list_chats:
         for chat in list_chats(database):
             print(f"{chat.id}\t{chat.message_count}\t{chat.title}")
-
+        return 0
 
     sidebar_chats = list_chats(database)
     if args.all_chats:
@@ -43,10 +43,12 @@ def main():
             navigation_enabled=True,
         )
         print(f"Rendered {len(chats)} conversation(s): {index_path}")
+        return 0
 
     chat = extract_chat(database, args.chat_id)
     index_path = render_chats([chat], args.output, sidebar_chats=sidebar_chats)
     print(f"Rendered {len(chat.messages)} text message(s): {index_path}")
+    return 0
 
 
 
