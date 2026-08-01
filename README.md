@@ -33,19 +33,19 @@ files to `data/decrypted/`.
 List the private chat IDs and titles:
 
 ```sh
-uv run python -m scripts.05_render_whatsapp --list-chats
+uv run python -m scripts._render_whatsapp --list-chats
 ```
 
 Render one chat:
 
 ```sh
-uv run python -m scripts.05_render_whatsapp --chat-id <ID>
+uv run python -m scripts._render_whatsapp --chat-id <ID>
 ```
 
 Or render every chat and enable full sidebar navigation:
 
 ```sh
-uv run python -m scripts.05_render_whatsapp --all-chats
+uv run python -m scripts._render_whatsapp --all-chats
 ```
 
 The archive is written to `output/whatsapp/`. It uses local CSS and JavaScript
