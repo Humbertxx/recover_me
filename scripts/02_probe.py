@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 """Inspect Telegram candidates without assuming that Postbox is SQLite.
 
 Run from the repository root: ``uv run python -m scripts.02_probe``. Output

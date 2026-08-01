@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 """Copy backed-up Telegram files into their manifest-mapped paths.
 
 The source backup is never modified. Files are copied from MVT's hashed

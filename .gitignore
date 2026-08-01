@@ -4,6 +4,9 @@ __pycache__/
 *.py[cod]
 .pytest_cache/
 .ruff_cache/
+*.egg-info/
+build/
+dist/
 
 # Sensitive backup data and generated artifacts
 data/
@@ -18,4 +21,3 @@ output/
 .DS_Store
 .idea/
 .vscode/
-

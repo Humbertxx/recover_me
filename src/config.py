@@ -12,4 +12,3 @@ OUTPUT_DIR = ROOT / "output"
 TEMPLATES_DIR = ROOT / "templates"
 ASSETS_DIR = ROOT / "assets"
 DESTINATION = OUTPUT_DIR / "index.html"
-UDID = os.getenv("RECOVER_ME_UDID")

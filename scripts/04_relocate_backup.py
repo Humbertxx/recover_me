@@ -1,11 +1,4 @@
-#!/usr/bin/env python3
-"""Copy every decrypted iOS-backup file into its manifest-mapped path.
-
-MVT stores decrypted file contents at ``<prefix>/<fileID>``. This script uses
-``Manifest.db`` to copy those files into separate folders by iOS backup domain,
-such as ``HomeDomain/Library/SMS/sms.db`` and
-``CameraRollDomain/Media/DCIM/...``. It never modifies the decrypted backup.
-"""
+"""Copy every decrypted iOS-backup file into its manifest-mapped path."""
 
 from __future__ import annotations
 
@@ -30,7 +23,7 @@ class BackupRecord:
     relative_path: str
 
 
-def main() -> int:
+def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--source", type=Path, default=DEFAULT_SOURCE)
     parser.add_argument("--output", type=Path, default=DEFAULT_OUTPUT)
@@ -87,7 +80,6 @@ def main() -> int:
     print(f"Symbolic-link records kept in metadata only: {symbolic_links}")
     print(f"Regular-file payload: {format_bytes(total_bytes)}")
     print(f"Output: {output}")
-    return 0
 
 
 def manifest_records(manifest: Path) -> tuple[list[BackupRecord], list[BackupRecord], int]:
