@@ -16,9 +16,16 @@ class Message(BaseModel):
     text: str
     date: datetime | None = None
     sender: Contact | None = None
+    is_from_me: bool = False
 
 
 class Chat(BaseModel):
     id: int | str
     title: str
     messages: list[Message] = Field(default_factory=list)
+
+
+class ChatSummary(BaseModel):
+    id: int | str
+    title: str
+    message_count: int = 0

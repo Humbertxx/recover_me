@@ -7,7 +7,7 @@ from pathlib import Path
 import sqlite3
 
 from .config import DECRYPTED_DIR
-from .models import Chat, Contact, Message
+from .models import Chat, ChatSummary, Contact, Message
 
 
 APPLE_EPOCH = datetime(2001, 1, 1, tzinfo=timezone.utc)
@@ -38,8 +38,8 @@ def find_chat_storage(root: Path = DECRYPTED_DIR) -> Path:
     return database
 
 
-def list_chats(database: Path) -> list[tuple[int, str, int]]:
-    """Return available chats as (id, title, message_count)."""
+def list_chats(database: Path) -> list[ChatSummary]:
+    """Return the available WhatsApp chats for navigation or selection."""
     with read_only_connection(database) as connection:
         rows = connection.execute(
             "SELECT Z_PK, "
@@ -50,7 +50,10 @@ def list_chats(database: Path) -> list[tuple[int, str, int]]:
             "WHERE COALESCE(ZREMOVED, 0) = 0 "
             "ORDER BY ZLASTMESSAGEDATE DESC, Z_PK"
         ).fetchall()
-    return [(int(chat_id), str(title), int(message_count or 0)) for chat_id, title, message_count in rows]
+    return [
+        ChatSummary(id=int(chat_id), title=str(title), message_count=int(message_count or 0))
+        for chat_id, title, message_count in rows
+    ]
 
 
 def extract_chat(database: Path, chat_id: int) -> Chat:
@@ -92,6 +95,7 @@ def extract_chat(database: Path, chat_id: int) -> Chat:
                 group_first_name,
                 profile_push_name,
             ),
+            is_from_me=bool(is_from_me),
         )
         for (
             message_id,

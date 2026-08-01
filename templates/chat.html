@@ -1,18 +1,54 @@
 {% extends "base.html" %}
 {% block title %}{{ chat.title }}{% endblock %}
 {% block content %}
-<a class="inline-flex items-center text-sm font-medium text-sky-700 hover:text-sky-900" href="index.html">← All conversations</a>
-<h1 class="mt-4 text-3xl font-bold tracking-tight">{{ chat.title }}</h1>
-<section class="mt-8 space-y-3">
+<div class="chat-app">
+  <aside class="conversation-sidebar">
+    <div class="conversation-sidebar__brand">
+      <span class="brand-mark" aria-hidden="true">⌁</span>
+      <div><p class="eyebrow">Local archive</p><strong>Messages</strong></div>
+    </div>
+    <div class="conversation-sidebar__label">Conversations</div>
+    <nav class="conversation-sidebar__list" aria-label="Recovered conversations">
+    {% for sidebar_chat in sidebar_chats %}
+      {% set selected = sidebar_chat.id == chat.id %}
+      {% if navigation_enabled or selected %}
+      <a class="conversation-nav {% if selected %}conversation-nav--selected{% endif %}" href="chat-{{ sidebar_chat.id }}.html"{% if selected %} aria-current="page"{% endif %}>
+      {% else %}
+      <span class="conversation-nav conversation-nav--unavailable" title="Render with --all-chats to enable navigation">
+      {% endif %}
+        <span class="chat-avatar" aria-hidden="true">{{ sidebar_chat.title[:1]|upper }}</span>
+        <span class="conversation-nav__content"><span class="conversation-nav__title">{{ sidebar_chat.title }}</span><span class="conversation-nav__meta">{{ sidebar_chat.message_count }} messages</span></span>
+      {% if navigation_enabled or selected %}</a>{% else %}</span>{% endif %}
+    {% endfor %}
+    </nav>
+    {% if not navigation_enabled %}<p class="conversation-sidebar__hint">Render with <code>--all-chats</code> to open other conversations from this list.</p>{% endif %}
+  </aside>
+
+  <section class="conversation-main">
+    <header class="conversation-header">
+      <span class="chat-avatar chat-avatar--large" aria-hidden="true">{{ chat.title[:1]|upper }}</span>
+      <div><p class="eyebrow">Recovered conversation</p><h1>{{ chat.title }}</h1><p class="conversation-header__meta">{{ chat.messages|length }} text messages</p></div>
+      <a class="conversation-header__archive-link" href="index.html">Archive</a>
+    </header>
+    <section class="message-timeline" aria-label="{{ chat.title }} messages">
 {% for message in chat.messages %}
-  <article class="rounded-xl border border-slate-200 bg-white px-5 py-4 shadow-sm">
-    {% if message.sender %}<p class="text-sm font-semibold text-sky-700">{{ message.sender.name }}</p>{% endif %}
-    {% if message.date %}<time class="mt-1 block text-xs text-slate-500" data-timestamp="{{ message.date.isoformat() }}">{{ message.date.strftime("%Y-%m-%d %H:%M:%S") }}</time>{% endif %}
-    <p class="mt-2 whitespace-pre-wrap text-slate-800">{{ message.text }}</p>
+  <article class="message-row {% if message.is_from_me %}message-row--self{% else %}message-row--other{% endif %}">
+    {% if message.is_from_me %}
+    <span class="message-avatar chat-avatar chat-avatar--self" aria-hidden="true">Y</span>
+    {% else %}
+    <span class="message-avatar chat-avatar" aria-hidden="true">{{ message.sender.name[:1]|upper if message.sender else "?" }}</span>
+    {% endif %}
+    <div class="message-bubble">
+      {% if message.sender %}<p class="message-bubble__sender">{{ message.sender.name }}</p>{% endif %}
+      <p class="message-bubble__text">{{ message.text }}</p>
+      {% if message.date %}<time class="message-bubble__date" data-timestamp="{{ message.date.isoformat() }}">{{ message.date.strftime("%Y-%m-%d %H:%M:%S") }}</time>{% endif %}
+    </div>
   </article>
 {% else %}
-  <p class="rounded-xl border border-dashed border-slate-300 bg-white px-5 py-8 text-center text-slate-500">No messages in this conversation.</p>
+  <p class="message-timeline__empty">No text messages in this conversation.</p>
 {% endfor %}
-</section>
+    </section>
+  </section>
+</div>
 {% endblock %}
 {% block scripts %}<script src="conversation.js" defer></script>{% endblock %}
