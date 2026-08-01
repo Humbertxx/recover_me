@@ -127,10 +127,3 @@ to stop the server. Edit `assets/conversation.js` to change date/time formatting
 for every rendered conversation, and edit `assets/conversation.css` for the
 dark chat theme. The default visible date format is `2021-09-23 23:30:21`,
 with no `+00:00` suffix.
-
-## Current status
-
-- Backup decryption and manifest-based file reconstruction: ready.
-- Telegram discovery: ready; Postbox extraction remains unavailable without a
-  Postbox database in the backup.
-- WhatsApp text conversation rendering: ready.
