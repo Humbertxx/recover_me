@@ -1,7 +1,0 @@
-README.md
-pyproject.toml
-src/recover_me.egg-info/PKG-INFO
-src/recover_me.egg-info/SOURCES.txt
-src/recover_me.egg-info/dependency_links.txt
-src/recover_me.egg-info/requires.txt
-src/recover_me.egg-info/top_level.txt
