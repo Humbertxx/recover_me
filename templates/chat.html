@@ -7,7 +7,7 @@
 {% for message in chat.messages %}
   <article class="rounded-xl border border-slate-200 bg-white px-5 py-4 shadow-sm">
     {% if message.sender %}<p class="text-sm font-semibold text-sky-700">{{ message.sender.name }}</p>{% endif %}
-    {% if message.date %}<time class="mt-1 block text-xs text-slate-500">{{ message.date }}</time>{% endif %}
+    {% if message.date %}<time class="mt-1 block text-xs text-slate-500" data-timestamp="{{ message.date.isoformat() }}">{{ message.date.strftime("%Y-%m-%d %H:%M:%S") }}</time>{% endif %}
     <p class="mt-2 whitespace-pre-wrap text-slate-800">{{ message.text }}</p>
   </article>
 {% else %}
@@ -15,3 +15,4 @@
 {% endfor %}
 </section>
 {% endblock %}
+{% block scripts %}<script src="conversation.js" defer></script>{% endblock %}
